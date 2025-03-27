@@ -199,16 +199,13 @@
     cursor: pointer;
 }
 
-/* ===================== Card Responsive Modifications ===================== */
-
-/* Hanya bagian card diubah, sisanya tetap */
 .card-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
-    max-width: 400px; /* Batasi ukuran maksimum agar terlihat lebih rapi */
+    max-width: 400px;
     margin: 20px;
     padding: 15px;
     border: 2px solid var(--tertiary-color);
@@ -279,7 +276,6 @@
     background-color: #a52a2a;
 }
 
-/* Media query untuk responsivitas */
 @media (min-width: 768px) {
     #card-container-wrapper {
         display: flex;

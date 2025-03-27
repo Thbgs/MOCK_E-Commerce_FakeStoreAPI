@@ -64,18 +64,15 @@
             </form>
         </div>
     </div>
-
     <script>
         document.getElementById("product-form").addEventListener("submit", function(event) {
             event.preventDefault();
-            
             const productId = document.getElementById("productId").value;
             const productName = document.getElementById("productName").value;
             const productPrice = document.getElementById("productPrice").value;
             const productDescription = document.getElementById("productDescription").value;
             const productCategory = document.getElementById("productCategory").value;
             const productImageLink = document.getElementById("productpicture").value;
-
             fetch(`https://fakestoreapi.com/products/${productId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
