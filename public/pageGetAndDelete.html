@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET dan DELETE Produk</title>
+    <link rel="stylesheet" href="./stylesheets/style1.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container-wrapper">
+        <div class="container">
+            <nav>
+                <a class="logo">TOKOPEDEI 
+                    <img src="./images/logo.png" alt="Logo E-Commerce Tokopedei"> 
+                </a>
+                <input type="text" class="search-bar" placeholder="Cari di Tokopedei">
+                <div class="image-container">
+                    <a href="pageGetAndDelete.html">
+                        <img class="nav-logo" src="./images/home.png" alt="Button Home">
+                    </a>
+                    <a href="pagePOST.html">
+                        <img class="nav-logo" src="./images/upload-big-arrow.png" alt="Button Upload">
+                    </a>
+                    <a href="pagePUT.html">
+                        <img class="nav-logo" src="./images/refresh.png" alt="Button Update">
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="container-wrapper">
+        <div class="category-container">
+            <div class="heading-page">
+                <h2 class="heading-page-text">Dashboard Penjual</h2>
+            </div>
+            <div class="product-btn">
+                <button type="button" class="product-category-btn">Semua Kategori</button>
+                <button type="button" class="product-category-btn">Smartphone</button>
+                <button type="button" class="product-category-btn">Laptop</button>
+                <button type="button" class="product-category-btn">TV</button>
+            </div>
+        </div>
+    </div>
+    <div id="card-container-wrapper" class="container-wrapper"></div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+        
+            function deleteProduct(productId) {
+                fetch(`https://fakestoreapi.com/products/${productId}`, {
+                    method: "DELETE"
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .catch(error => console.error('Error menghapus produk:', error));
+            }
+        
+            fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(data => {
+                const cardContainerWrapper = document.getElementById('card-container-wrapper');
+                data.forEach(produk => {
+                    const cardContainer = document.createElement('div');
+                    cardContainer.classList.add('card-container');
+                    cardContainer.innerHTML = `
+                        <div class="card">
+                            <div class="card-content">
+                                <img src="${produk.image}" alt="${produk.title}">
+                                <div class="card-info">
+                                    <h3 class="product-title">${produk.title}</h3>
+                                    <p class="product-description">${produk.description.substring(0, 100)}...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-description">
+                            <div class="card-stock">
+                                <p class="stock-price">USD$: <b>${produk.price}</b></p>
+                            </div>
+                            <button class="btn-delete" type="button" data-id="${produk.id}">Delete</button>
+                        </div>
+                    `;
+                    cardContainerWrapper.appendChild(cardContainer);
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+        
+            document.addEventListener('click', function(event) {
+                if (event.target.classList.contains('btn-delete')) {
+                    const productId = event.target.dataset.id;
+                    if (confirm('Apakah Anda yakin ingin menghapus produk ini?')) {
+                        deleteProduct(productId);
+                    }
+                }
+            });
+        });
+        </script>        
+</body>
+</html>

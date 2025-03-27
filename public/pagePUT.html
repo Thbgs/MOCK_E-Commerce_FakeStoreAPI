@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PUT Product</title>
+    <link rel="stylesheet" href="./stylesheets/style2.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,700;1,700&display=swap" rel="stylesheet"> 
+</head>
+<body>   
+    <div class="container-wrapper">
+        <div class="container">
+            <nav>
+                <a class="logo">TOKOPEDEI 
+                    <img src="./images/logo.png" alt="Logo E-Commerce Tokopedei"> 
+                </a>
+                <input type="text" class="search-bar" placeholder="Cari di Tokopedei">
+                <div class="image-container">
+                    <a href="pageGetAndDelete.html">
+                        <img class="nav-logo" src="./images/home.png" alt="Button Home">
+                    </a>
+                    <a href="pagePOST.html">
+                        <img class="nav-logo" src="./images/upload-big-arrow.png" alt="Button Upload">
+                    </a>
+                    <a href="pagePUT.html">
+                        <img class="nav-logo" src="./images/refresh.png" alt="Button Update">
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="container-wrapper">
+        <div class="category-container">
+            <div class="heading-page">
+                <a class="heading-page-text">Update Produk</a>
+            </div>
+        </div>
+    </div>
+    <div class="container-wrapper">
+        <div class="input-container">
+            <form id="product-form">
+                <div class="container-input">
+                    <input class="id-input" id="productId" type="number" placeholder="Masukan ID produk" required>
+                </div>
+                <div class="container-input">
+                    <input class="name-input" id="productName" type="text" placeholder="Masukan nama produk" required>
+                </div>
+                <div class="container-input">
+                    <input class="price-input" id="productPrice" type="number" placeholder="Masukan harga produk" required>
+                    
+                    <input class="category-input" id="productCategory" type="text" placeholder="Masukan kategori produk" required>
+                    
+                    <input class="imagelink-input" id="productpicture" type="text" placeholder="Masukan tautan gambar produk" required>
+                </div>
+                <div class="container-input">
+                    <textarea class="description-input" id="productDescription" placeholder="Masukan deskripsi produk" required></textarea>
+                </div>
+                <div class="container-btn">
+                    <button type="reset" class="cancel-btn">CANCEL</button>
+                    <button type="submit" class="insert-btn" id="submit-btn">UPDATE</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("product-form").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const productId = document.getElementById("productId").value;
+            const productName = document.getElementById("productName").value;
+            const productPrice = document.getElementById("productPrice").value;
+            const productDescription = document.getElementById("productDescription").value;
+            const productCategory = document.getElementById("productCategory").value;
+            const productImageLink = document.getElementById("productpicture").value;
+
+            fetch(`https://fakestoreapi.com/products/${productId}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    id: parseInt(productId),
+                    title: productName,
+                    price: parseFloat(productPrice),
+                    description: productDescription,
+                    category: productCategory,
+                    image: productImageLink
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                console.log("Product updated:", data);
+                alert("Produk berhasil diupdate ke Fake Store API!");
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Terjadi kesalahan saat mengupdate produk.");
+            });
+        });
+    </script>
+</body>
+</html>
